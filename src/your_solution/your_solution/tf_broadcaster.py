@@ -35,6 +35,7 @@ class TFBroadcaster(Node):
         for detection in msg.detection_info.detections:
             for result in detection.results:
                 t = TransformStamped()
+                # TODO this is the wrong timestamp
                 t.header.stamp = self.get_clock().now().to_msg()
                 t.header.frame_id = 'camera_frame'
                 t.child_frame_id = 'detected_panel'
@@ -52,6 +53,7 @@ class TFBroadcaster(Node):
     
     def ground_truth_callback(self, msg):
         t = TransformStamped()
+        # TODO wrong timestamp
         t.header.stamp = self.get_clock().now().to_msg()
         t.header.frame_id = 'map'
         t.child_frame_id = 'camera_frame'
@@ -69,6 +71,7 @@ class TFBroadcaster(Node):
         
         for i, panel_pose in enumerate(msg.secondary_robot.armor_panel_poses):
             t = TransformStamped()
+            # TODO wrong timestamp
             t.header.stamp = self.get_clock().now().to_msg()
             t.header.frame_id = 'map'
             t.child_frame_id = f'panel_{i}'

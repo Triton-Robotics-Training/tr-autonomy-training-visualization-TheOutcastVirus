@@ -34,22 +34,21 @@ class TFBroadcaster(Node):
     def detection_callback(self, msg):
         for detection in msg.detection_info.detections:
             for result in detection.results:
-                if result.hypothesis.class_id == "panel":
-                    t = TransformStamped()
-                    t.header.stamp = self.get_clock().now().to_msg()
-                    t.header.frame_id = 'camera_frame'
-                    t.child_frame_id = 'detected_panel'
-                    
-                    pose = result.pose.pose
-                    t.translation.x = pose.position.x
-                    t.translation.y = pose.position.y
-                    t.translation.z = pose.position.z
-                    t.rotation.x = pose.orientation.x
-                    t.rotation.y = pose.orientation.y
-                    t.rotation.z = pose.orientation.z
-                    t.rotation.w = pose.orientation.w
-                    
-                    self.tf_broadcaster.sendTransform(t)
+                t = TransformStamped()
+                t.header.stamp = self.get_clock().now().to_msg()
+                t.header.frame_id = 'camera_frame'
+                t.child_frame_id = 'detected_panel'
+                
+                pose = result.pose.pose
+                t.transform.translation.x = pose.position.x
+                t.transform.translation.y = pose.position.y
+                t.transform.translation.z = pose.position.z
+                t.transform.rotation.x = pose.orientation.x
+                t.transform.rotation.y = pose.orientation.y
+                t.transform.rotation.z = pose.orientation.z
+                t.transform.rotation.w = pose.orientation.w
+                
+                self.tf_broadcaster.sendTransform(t)
     
     def ground_truth_callback(self, msg):
         t = TransformStamped()
@@ -58,13 +57,13 @@ class TFBroadcaster(Node):
         t.child_frame_id = 'camera_frame'
         
         camera_pose = msg.primary_robot.camera_pose
-        t.translation.x = camera_pose.position.x
-        t.translation.y = camera_pose.position.y
-        t.translation.z = camera_pose.position.z
-        t.rotation.x = camera_pose.orientation.x
-        t.rotation.y = camera_pose.orientation.y
-        t.rotation.z = camera_pose.orientation.z
-        t.rotation.w = camera_pose.orientation.w
+        t.transform.translation.x = camera_pose.position.x
+        t.transform.translation.y = camera_pose.position.y
+        t.transform.translation.z = camera_pose.position.z
+        t.transform.rotation.x = camera_pose.orientation.x
+        t.transform.rotation.y = camera_pose.orientation.y
+        t.transform.rotation.z = camera_pose.orientation.z
+        t.transform.rotation.w = camera_pose.orientation.w
         
         self.tf_broadcaster.sendTransform(t)
         
@@ -74,13 +73,13 @@ class TFBroadcaster(Node):
             t.header.frame_id = 'map'
             t.child_frame_id = f'panel_{i}'
             
-            t.translation.x = panel_pose.position.x
-            t.translation.y = panel_pose.position.y
-            t.translation.z = panel_pose.position.z
-            t.rotation.x = panel_pose.orientation.x
-            t.rotation.y = panel_pose.orientation.y
-            t.rotation.z = panel_pose.orientation.z
-            t.rotation.w = panel_pose.orientation.w
+            t.transform.translation.x = panel_pose.position.x
+            t.transform.translation.y = panel_pose.position.y
+            t.transform.translation.z = panel_pose.position.z
+            t.transform.rotation.x = panel_pose.orientation.x
+            t.transform.rotation.y = panel_pose.orientation.y
+            t.transform.rotation.z = panel_pose.orientation.z
+            t.transform.rotation.w = panel_pose.orientation.w
             
             self.tf_broadcaster.sendTransform(t)
 

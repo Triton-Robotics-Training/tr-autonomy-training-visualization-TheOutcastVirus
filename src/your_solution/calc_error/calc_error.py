@@ -1,6 +1,7 @@
 import rclpy
 from rclpy.node import Node
-import rclpy.time
+from rclpy.time import Time
+from rclpy.duration import Duration
 from std_msgs.msg import Float64
 import tf2_ros
 import tf2_geometry_msgs
@@ -23,10 +24,12 @@ class CalcError(Node):
 
     def calculate_error(self):
         # TODO Instead of using rclpy.time.Time() you must match the timestamps for the 2 transform look ups
+        # resolved
         
         # TODO instead of 1 big try catch you should have 1 for each lookup_transform
         
-        stamp = self.get_clock().now()
+        stamp = self.get_clock().now() - Duration(nanoseconds=10000000) # 10 ms delay
+
         try:
             detected_transform = self.tf_buffer.lookup_transform(
                 "map", "detected_panel", stamp
